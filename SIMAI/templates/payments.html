@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">Pagamentos</h2>
+        <p class="text-muted">Histórico de pagamentos realizados</p>
+    </div>
+    <div class="bg-success bg-opacity-10 text-success rounded-circle p-3">
+        <i class="bi bi-cash-stack fs-4"></i>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4 py-3">Infração ID</th>
+                        <th class="py-3">Placa</th>
+                        <th class="py-3">Data do Pagamento</th>
+                        <th class="pe-4 py-3 text-end">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if payments %}
+                    {% for pay in payments %}
+                    <tr>
+                        <td class="ps-4 fw-medium text-muted">#{{ pay.infraction_id }}</td>
+                        <td>
+                            <span class="badge bg-light text-dark border fw-bold font-monospace">{{ pay.plate }}</span>
+                        </td>
+                        <td class="text-muted">
+                            <i class="bi bi-clock me-1"></i>
+                            {{ pay.timestamp | format_datetime }}
+                        </td>
+                        <td class="pe-4 text-end">
+                            <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill">
+                                <i class="bi bi-check-circle-fill me-1"></i> Pago
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center py-5 text-muted">
+                            <div class="mb-3">
+                                <i class="bi bi-receipt fs-1 opacity-25"></i>
+                            </div>
+                            <p class="mb-0">Nenhum pagamento registrado.</p>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

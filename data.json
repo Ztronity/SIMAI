@@ -1,0 +1,380 @@
+{
+    "infractions": [
+        {
+            "id": 14095614,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 10:41:35",
+            "status": "Pendente"
+        },
+        {
+            "id": 14156236,
+            "placa": "ABC3350",
+            "valor": 500.0,
+            "tipo": "220",
+            "data": "15/11/2025 10:42:36",
+            "status": "Pendente"
+        },
+        {
+            "id": 14187644,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 10:43:07",
+            "status": "Pendente"
+        },
+        {
+            "id": 14189905,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 10:43:09",
+            "status": "Pendente"
+        },
+        {
+            "id": 14499113,
+            "placa": "JOS9849",
+            "valor": 90.0,
+            "tipo": "H",
+            "data": "15/11/2025 10:48:19",
+            "status": "Pendente"
+        },
+        {
+            "id": 14512647,
+            "placa": "JOS9849",
+            "valor": 90.0,
+            "tipo": "-",
+            "data": "15/11/2025 10:48:32",
+            "status": "Pendente"
+        },
+        {
+            "id": 14621088,
+            "placa": "TEST001",
+            "valor": 0.0,
+            "tipo": "10",
+            "data": "15/11/2025 10:50:21",
+            "status": "Pendente"
+        },
+        {
+            "id": 16129919,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 11:15:29",
+            "status": "Pendente"
+        },
+        {
+            "id": 16130395,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 11:15:30",
+            "status": "Pendente"
+        },
+        {
+            "id": 16130550,
+            "placa": "ABC1234",
+            "tipo": "Documentação",
+            "data": "15/11/2025 11:15:30",
+            "status": "Pendente"
+        },
+        {
+            "id": 16130712,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 11:15:30",
+            "status": "Pendente"
+        },
+        {
+            "id": 16130865,
+            "placa": "ABC1234",
+            "tipo": "Documentação",
+            "data": "15/11/2025 11:15:30",
+            "status": "Pendente"
+        },
+        {
+            "id": 16131012,
+            "placa": "ABC1234",
+            "tipo": "Velocidade",
+            "data": "15/11/2025 11:15:31",
+            "status": "Pendente"
+        },
+        {
+            "id": 16131184,
+            "placa": "ABC1234",
+            "tipo": "Documentação",
+            "data": "15/11/2025 11:15:31",
+            "status": "Pendente"
+        },
+        {
+            "id": 16131337,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 11:15:31",
+            "status": "Pendente"
+        },
+        {
+            "id": 16131472,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 11:15:31",
+            "status": "Pendente"
+        },
+        {
+            "id": 16131630,
+            "placa": "ABC1234",
+            "tipo": "Velocidade",
+            "data": "15/11/2025 11:15:31",
+            "status": "Pendente"
+        },
+        {
+            "id": 16131933,
+            "placa": "ABC1234",
+            "tipo": "Documentação",
+            "data": "15/11/2025 11:15:31",
+            "status": "Pendente"
+        },
+        {
+            "id": 16132048,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 11:15:32",
+            "status": "Pendente"
+        },
+        {
+            "id": 16132251,
+            "placa": "ABC1234",
+            "tipo": "Velocidade",
+            "data": "15/11/2025 11:15:32",
+            "status": "Pendente"
+        },
+        {
+            "id": 16132423,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 11:15:32",
+            "status": "Pendente"
+        },
+        {
+            "id": 16132627,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 11:15:32",
+            "status": "Pendente"
+        },
+        {
+            "id": 16132796,
+            "placa": "ABC1234",
+            "tipo": "Velocidade",
+            "data": "15/11/2025 11:15:32",
+            "status": "Pendente"
+        },
+        {
+            "id": 16132983,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 11:15:32",
+            "status": "Pendente"
+        },
+        {
+            "id": 16133161,
+            "placa": "ABC1234",
+            "tipo": "Documentação",
+            "data": "15/11/2025 11:15:33",
+            "status": "Pendente"
+        },
+        {
+            "id": 16133341,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 11:15:33",
+            "status": "Pendente"
+        },
+        {
+            "id": 16133525,
+            "placa": "ABC1234",
+            "tipo": "Velocidade",
+            "data": "15/11/2025 11:15:33",
+            "status": "Pendente"
+        },
+        {
+            "id": 16133633,
+            "placa": "ABC1234",
+            "tipo": "Velocidade",
+            "data": "15/11/2025 11:15:33",
+            "status": "Pendente"
+        },
+        {
+            "id": 16133966,
+            "placa": "ABC1234",
+            "tipo": "Documentação",
+            "data": "15/11/2025 11:15:33",
+            "status": "Pendente"
+        },
+        {
+            "id": 16134126,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 11:15:34",
+            "status": "Pendente"
+        },
+        {
+            "id": 16134295,
+            "placa": "ABC1234",
+            "tipo": "Documentação",
+            "data": "15/11/2025 11:15:34",
+            "status": "Pendente"
+        },
+        {
+            "id": 16134481,
+            "placa": "ABC1234",
+            "tipo": "Documentação",
+            "data": "15/11/2025 11:15:34",
+            "status": "Pendente"
+        },
+        {
+            "id": 16134652,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 11:15:34",
+            "status": "Pendente"
+        },
+        {
+            "id": 16134831,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 11:15:34",
+            "status": "Pendente"
+        },
+        {
+            "id": 16134997,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 11:15:34",
+            "status": "Pendente"
+        },
+        {
+            "id": 16135161,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 11:15:35",
+            "status": "Pendente"
+        },
+        {
+            "id": 16135329,
+            "placa": "ABC1234",
+            "tipo": "Documentação",
+            "data": "15/11/2025 11:15:35",
+            "status": "Pendente"
+        },
+        {
+            "id": 16135503,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 11:15:35",
+            "status": "Pendente"
+        },
+        {
+            "id": 16135699,
+            "placa": "ABC1234",
+            "tipo": "Documentação",
+            "data": "15/11/2025 11:15:35",
+            "status": "Pendente"
+        },
+        {
+            "id": 16135873,
+            "placa": "ABC1234",
+            "tipo": "Documentação",
+            "data": "15/11/2025 11:15:35",
+            "status": "Pendente"
+        },
+        {
+            "id": 16136038,
+            "placa": "ABC1234",
+            "tipo": "Documentação",
+            "data": "15/11/2025 11:15:36",
+            "status": "Pendente"
+        },
+        {
+            "id": 16136238,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 11:15:36",
+            "status": "Pendente"
+        },
+        {
+            "id": 16136406,
+            "placa": "ABC1234",
+            "tipo": "Documentação",
+            "data": "15/11/2025 11:15:36",
+            "status": "Pendente"
+        },
+        {
+            "id": 16136597,
+            "placa": "ABC1234",
+            "tipo": "Velocidade",
+            "data": "15/11/2025 11:15:36",
+            "status": "Pendente"
+        },
+        {
+            "id": 16136756,
+            "placa": "ABC1234",
+            "tipo": "Documentação",
+            "data": "15/11/2025 11:15:36",
+            "status": "Pendente"
+        },
+        {
+            "id": 16136924,
+            "placa": "ABC1234",
+            "tipo": "Documentação",
+            "data": "15/11/2025 11:15:36",
+            "status": "Pendente"
+        },
+        {
+            "id": 16137089,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 11:15:37",
+            "status": "Pendente"
+        },
+        {
+            "id": 16137227,
+            "placa": "ABC1234",
+            "tipo": "Velocidade",
+            "data": "15/11/2025 11:15:37",
+            "status": "Pendente"
+        },
+        {
+            "id": 16137379,
+            "placa": "ABC1234",
+            "tipo": "Velocidade",
+            "data": "15/11/2025 11:15:37",
+            "status": "Pendente"
+        },
+        {
+            "id": 16137833,
+            "placa": "ABC1234",
+            "tipo": "Documentação",
+            "data": "15/11/2025 11:15:37",
+            "status": "Pendente"
+        },
+        {
+            "id": 16138210,
+            "placa": "ABC1234",
+            "tipo": "Velocidade",
+            "data": "15/11/2025 11:15:38",
+            "status": "Pendente"
+        },
+        {
+            "id": 16157855,
+            "placa": "9845647",
+            "valor": 600.0,
+            "tipo": "5000",
+            "data": "15/11/2025 11:15:57",
+            "status": "Pendente"
+        },
+        {
+            "id": 16162894,
+            "placa": "ABC1234",
+            "tipo": "Estacionamento",
+            "data": "15/11/2025 11:16:02",
+            "status": "Pendente"
+        }
+    ]
+}

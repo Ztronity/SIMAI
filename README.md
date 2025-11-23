@@ -1,3 +1,5 @@
+Meu nome é Jean Paulo, sou estudante de Ciências da Computação e este projeto faz parte de um trabalho de conclusão de curso.
+
 # SIMAI - Sistema Integrado de Monitoramento e Alerta de Infrações
 O **SIMAI** é um sistema desenvolvido com o propósito de **reduzir o tempo entre a ocorrência de uma infração de trânsito e a notificação do condutor**, permitindo que o usuário seja alertado quase instantaneamente sobre novos registros, evitando surpresas e atrasos na regularização.
 

@@ -1,4 +1,10 @@
-Meu nome é Jean Paulo, sou estudante de Ciências da Computação e este projeto faz parte de um trabalho de conclusão de curso.
+Meu nome é Jean Paulo Teófilo Chaves, sou estudante de Ciências da Computação e este projeto faz parte de um trabalho de conclusão de curso.
+
+Nome: Jean Paulo Teófilo Chaves
+Curso: Ciência da Computação
+Instituição de ensino: Centro Universitário do Distrito Federal - UDF
+Trabalho de Conclusão de Curso: SIMAI - Sistema Integrado de Monitoramento e Alerta de Infrações
+Professora orientadora: Kadidja Valéria Reginaldo de Oliveira
 
 # SIMAI - Sistema Integrado de Monitoramento e Alerta de Infrações
 O **SIMAI** é um sistema desenvolvido com o propósito de **reduzir o tempo entre a ocorrência de uma infração de trânsito e a notificação do condutor**, permitindo que o usuário seja alertado quase instantaneamente sobre novos registros, evitando surpresas e atrasos na regularização.

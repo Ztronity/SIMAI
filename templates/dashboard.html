@@ -14,7 +14,7 @@
 
 <div class="row g-4">
 
-    <hr class="my-4">
+<hr class="my-4">
 
 <h5 class="fw-bold">Painel Administrativo (Simulação)</h5>
 
@@ -226,5 +226,24 @@ async function checkNotifications() {
 setInterval(checkNotifications, 3000);
 </script>
 
+<script>
+async function sendInfraction() {
+  const plate = document.getElementById("adminPlate").value;
+  const toUser = document.getElementById("adminUser").value;
+
+  if (!plate || !toUser) {
+    alert("Preencha placa e usuário");
+    return;
+  }
+
+  await fetch("/admin/send_infraction", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ plate: plate, to_user: toUser })
+  });
+
+  alert("Infração enviada com sucesso!");
+}
+</script>
 
 {% endblock %}

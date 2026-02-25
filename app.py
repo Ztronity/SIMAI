@@ -17,13 +17,6 @@ payments = []
 notifications = []
 
 # -----------------------------
-# FILTROS DE DATA
-# -----------------------------
-@app.template_filter("format_datetime")
-def format_datetime(ts):
-    return datetime.fromtimestamp(ts).strftime("%d/%m/%Y %H:%M")
-
-# -----------------------------
 # USUÁRIOS (JSON)
 # -----------------------------
 USERS_FILE = "users.json"
@@ -31,8 +24,12 @@ USERS_FILE = "users.json"
 def load_users():
     if not os.path.exists(USERS_FILE):
         return []
-    with open(USERS_FILE) as f:
+    with open(USERS_FILE, "r") as f:
         return json.load(f).get("users", [])
+
+def save_users(users):
+    with open(USERS_FILE, "w") as f:
+        json.dump({"users": users}, f, indent=4)
 
 def get_user(username):
     return next((u for u in load_users() if u["username"] == username), None)
@@ -56,13 +53,32 @@ def login():
     if request.method == "POST":
         user = request.form.get("user").lower()
         pwd = request.form.get("password")
+
         u = get_user(user)
         if u and u["password"] == pwd:
             session["logged"] = True
             session["username"] = user
             return redirect("/dashboard")
+
         return render_template("login.html", error="Credenciais inválidas")
+
     return render_template("login.html")
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        user = request.form.get("user").lower()
+        pwd = request.form.get("password")
+
+        users = load_users()
+        if get_user(user):
+            return render_template("register.html", error="Usuário já existe")
+
+        users.append({"username": user, "password": pwd})
+        save_users(users)
+        return redirect("/login")
+
+    return render_template("register.html")
 
 @app.route("/logout")
 def logout():
@@ -83,7 +99,20 @@ def dashboard():
     )
 
 # -----------------------------
-# ADMIN → CRIAR INFRAÇÃO
+# LISTAGENS
+# -----------------------------
+@app.route("/infractions")
+@login_required
+def list_infractions():
+    return render_template("infractions.html", infractions=infractions)
+
+@app.route("/payments")
+@login_required
+def list_payments():
+    return render_template("payments.html", payments=payments)
+
+# -----------------------------
+# ADMIN → ENVIAR INFRAÇÃO
 # -----------------------------
 @app.route("/admin/send_infraction", methods=["POST"])
 @login_required
@@ -123,6 +152,17 @@ def check_notifications():
     ]
 
     return jsonify(result)
+
+# -----------------------------
+# FILTROS DE DATA
+# -----------------------------
+@app.template_filter("format_datetime")
+def format_datetime(ts):
+    return datetime.fromtimestamp(ts).strftime("%d/%m/%Y %H:%M")
+
+@app.template_filter("format_date")
+def format_date(ts):
+    return datetime.fromtimestamp(ts).strftime("%d/%m/%Y")
 
 # -----------------------------
 # START

@@ -173,4 +173,30 @@
     });
 </script>
 
+<script>
+let lastCheck = 0;
+
+setInterval(() => {
+    fetch(`/api/notifications/check?since=${lastCheck}`)
+        .then(res => res.json())
+        .then(data => {
+            if (!Array.isArray(data) || data.length === 0) return;
+
+            data.forEach(n => {
+                alert(
+                    "🔔 SIMAI - Nova Notificação\n\n" +
+                    "Placa: " + (n.plate || "-") + "\n" +
+                    n.message
+                );
+            });
+
+            // Atualiza UMA VEZ, com o maior timestamp
+            lastCheck = Math.max(...data.map(n => n.timestamp));
+        })
+        .catch(err => console.error("Erro nas notificações:", err));
+}, 4000);
+</script>
+
+
+
 {% endblock %}

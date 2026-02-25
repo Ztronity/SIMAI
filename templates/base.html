@@ -283,6 +283,33 @@
         });
     </script>
 
+<script>
+async function sendInfraction() {
+  const plate = document.getElementById("adminPlate").value;
+  const toUser = document.getElementById("adminUser").value;
+
+  if (!plate || !toUser) {
+    alert("Preencha placa e usuário");
+    return;
+  }
+
+  const res = await fetch("/admin/send_infraction", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      plate: plate,
+      to_user: toUser
+    })
+  });
+
+  if (res.ok) {
+    alert("Infração enviada com sucesso!");
+  } else {
+    alert("Erro ao enviar infração");
+  }
+}
+</script>
+
     {% block scripts %}{% endblock %}
 
 </body>

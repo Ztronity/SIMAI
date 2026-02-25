@@ -3,12 +3,17 @@ from flask_session import Session
 import time
 import random
 from datetime import datetime
+import json
+import os
 
 app = Flask(__name__)
 app.secret_key = "simai_secret"
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
+# -----------------------------
+# FILTROS DE TEMPLATE
+# -----------------------------
 @app.template_filter('format_date')
 def format_date(timestamp):
     return datetime.fromtimestamp(timestamp).strftime('%d/%m/%Y')
@@ -20,36 +25,30 @@ def format_datetime(timestamp):
 # -----------------------------
 # BASE DE DADOS EM MEMÓRIA
 # -----------------------------
-infractions = []     # Lista de infrações
-payments = []         # Histórico de pagamentos
-notifications = []    # Notificações enviadas
+infractions = []
+payments = []
+notifications = []
 
+# -----------------------------
+# FUNÇÃO DE ADMIN
+# -----------------------------
+def is_admin():
+    return session.get("username") == "admin"
 
 # -----------------------------------
 # FUNÇÃO FAKE PARA SIMULAR API DETRAN
 # -----------------------------------
 def simulate_detran_api(plate):
-    """Simula busca de infrações na API do DETRAN."""
-    if random.random() < 0.1:   # 10% chance de falhar
-        return None  # Falha da API
+    if random.random() < 0.1:
+        return None
 
-    # Simulação de retorno
-    return [
-        {
-            "id": random.randint(1000, 9999),
-            "plate": plate,
-            "description": "Excesso de velocidade",
-            "points": 7,
-            "timestamp": int(time.time())
-        }
-    ]
-
-
-# --------------------------
-# ROTAS DE AUTENTICAÇÃO
-# --------------------------
-import json
-import os
+    return [{
+        "id": random.randint(1000, 9999),
+        "plate": plate,
+        "description": "Excesso de velocidade",
+        "points": 7,
+        "timestamp": int(time.time())
+    }]
 
 # -----------------------------
 # GERENCIAMENTO DE USUÁRIOS
@@ -87,81 +86,71 @@ def update_password(username, new_password):
             return True
     return False
 
-
-# --------------------------
-# ROTAS DE AUTENTICAÇÃO
-# --------------------------
+# -----------------------------
+# AUTENTICAÇÃO
+# -----------------------------
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        user_input = request.form.get("user")
-        pwd_input = request.form.get("password")
+        user = request.form.get("user")
+        pwd = request.form.get("password")
 
-        user = get_user(user_input)
-
-        if user and user["password"] == pwd_input:
+        found = get_user(user)
+        if found and found["password"] == pwd:
             session["logged"] = True
-            session["username"] = user_input
+            session["username"] = user
             return redirect(url_for("dashboard"))
 
         return render_template("login.html", error="Usuário ou senha inválidos.")
-
     return render_template("login.html")
-
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
         user = request.form.get("user")
         pwd = request.form.get("password")
-        confirm_pwd = request.form.get("confirm_password")
+        confirm = request.form.get("confirm_password")
 
-        if pwd != confirm_pwd:
+        if pwd != confirm:
             return render_template("register.html", error="As senhas não coincidem.")
 
         if add_user(user, pwd):
             return redirect(url_for("login"))
-        else:
-            return render_template("register.html", error="Usuário já existe.")
 
+        return render_template("register.html", error="Usuário já existe.")
     return render_template("register.html")
-
 
 @app.route("/forgot_password", methods=["GET", "POST"])
 def forgot_password():
     if request.method == "POST":
         user = request.form.get("user")
         new_pwd = request.form.get("new_password")
-        
+
         if update_password(user, new_pwd):
-             return redirect(url_for("login"))
-        else:
-             return render_template("forgot_password.html", error="Usuário não encontrado.")
+            return redirect(url_for("login"))
 
+        return render_template("forgot_password.html", error="Usuário não encontrado.")
     return render_template("forgot_password.html")
-
 
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for("login"))
 
-
-# -------------------------
-# CHECAR LOGIN NAS ROTAS
-# -------------------------
-def login_required(route_func):
+# -----------------------------
+# DECORATOR LOGIN
+# -----------------------------
+def login_required(route):
     def wrapper(*args, **kwargs):
         if not session.get("logged"):
             return redirect(url_for("login"))
-        return route_func(*args, **kwargs)
-    wrapper.__name__ = route_func.__name__
+        return route(*args, **kwargs)
+    wrapper.__name__ = route.__name__
     return wrapper
 
-
-# -------------------------
+# -----------------------------
 # DASHBOARD
-# -------------------------
+# -----------------------------
 @app.route("/dashboard")
 @login_required
 def dashboard():
@@ -170,30 +159,15 @@ def dashboard():
         "total_payments": len(payments),
         "total_notifications": len(notifications)
     }
-    return render_template("dashboard.html", stats=stats)
+    return render_template("dashboard.html", **stats)
 
-
-# -----------------------------------
-# CONSULTA DE INFRAÇÕES POR PLACA
-# -----------------------------------
-@app.route("/search_plate", methods=["POST"])
-@login_required
-def search_plate():
-    plate = request.form.get("plate")
-
-    filtered = [i for i in infractions if i["plate"] == plate.upper()]
-
-    return render_template("infractions.html", infractions=filtered, query=plate)
-
-
-# -------------------------
-# ADICIONAR INFRAÇÃO FAKE
-# -------------------------
+# -----------------------------
+# SIMULAR INFRAÇÃO (AUTOMÁTICA)
+# -----------------------------
 @app.route("/simulate/new_infraction", methods=["POST"])
 @login_required
 def simulate_new_infraction():
     plate = request.form.get("plate").upper()
-
     api_result = simulate_detran_api(plate)
 
     if api_result is None:
@@ -204,76 +178,78 @@ def simulate_new_infraction():
         infractions.append(inf)
 
         notifications.append({
+            "to_user": session.get("username"),  # dono da infração
             "plate": plate,
             "message": "Nova infração registrada!",
             "timestamp": time.time()
-        })
+            })
+
 
     return jsonify({"success": True})
 
-
-# -------------------------
-# HISTÓRICO DE PAGAMENTOS
-# -------------------------
-@app.route("/pay/<int:inf_id>", methods=["POST"])
+# -----------------------------
+# ADMIN → ENVIAR NOTIFICAÇÃO
+# -----------------------------
+@app.route("/admin/send_notification", methods=["POST"])
 @login_required
-def pay(inf_id):
-    found = next((i for i in infractions if i["id"] == inf_id), None)
+def admin_send_notification():
+    if session.get("username") != "admin":
+        return jsonify({"error": "Acesso negado"}), 403
 
-    if not found:
-        return jsonify({"error": "Infração não encontrada"}), 404
+    to_user = request.form.get("to_user")
+    plate = request.form.get("plate")
+    message = request.form.get("message")
 
-    payments.append({
-        "infraction_id": inf_id,
-        "plate": found["plate"],
+    notifications.append({
+        "to_user": to_user,
+        "plate": plate,
+        "message": message,
         "timestamp": time.time()
     })
 
     return jsonify({"success": True})
 
+# -----------------------------
+# NOTIFICAÇÕES EM TEMPO REAL
+# -----------------------------
+@app.route("/api/notifications/check")
+@login_required
+def check_notifications():
+    since = request.args.get("since", 0, type=float)
+    user = session.get("username")
 
-# ----------------------------
-# LISTAR INFRAÇÕES
-# ----------------------------
+    new_notifs = []
+
+    for n in notifications:
+        if n["timestamp"] > since:
+            # Se não tiver destinatário, é global
+            if "to_user" not in n or n["to_user"] is None:
+                new_notifs.append(n)
+            # Se tiver, só envia ao usuário correto
+            elif n["to_user"] == user:
+                new_notifs.append(n)
+
+    return jsonify(new_notifs)
+
+# -----------------------------
+# LISTAGENS
+# -----------------------------
 @app.route("/infractions")
 @login_required
 def list_infractions():
     return render_template("infractions.html", infractions=infractions, query=None)
 
-
-# -------------------------
-# LISTAR PAGAMENTOS
-# -------------------------
 @app.route("/payments")
 @login_required
 def list_payments():
     return render_template("payments.html", payments=payments)
 
-
-# -------------------------
-# HOME
-# -------------------------
 @app.route("/")
 def home():
-    if not session.get("logged"):
-        return redirect(url_for("login"))
-    return redirect(url_for("dashboard"))
+    return redirect(url_for("dashboard")) if session.get("logged") else redirect(url_for("login"))
 
-
-# -------------------------
-# API NOTIFICAÇÕES (POLLING)
-# -------------------------
-@app.route("/api/notifications/check")
-@login_required
-def check_notifications():
-    since = request.args.get("since", 0, type=float)
-    # Retorna notificações mais recentes que o timestamp fornecido
-    new_notifs = [n for n in notifications if n["timestamp"] > since]
-    return jsonify(new_notifs)
-
-
-# -------------------------
-# RODAR O SERVIDOR
-# -------------------------
+# -----------------------------
+# RUN
+# -----------------------------
 if __name__ == "__main__":
     app.run(debug=True)

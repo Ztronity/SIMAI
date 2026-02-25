@@ -14,6 +14,24 @@
 
 <div class="row g-4">
 
+    <hr class="my-4">
+
+<h5 class="fw-bold">Painel Administrativo (Simulação)</h5>
+
+<div class="row g-2">
+  <div class="col-md-3">
+    <input id="adminPlate" class="form-control" placeholder="Placa (ABC1234)">
+  </div>
+  <div class="col-md-3">
+    <input id="adminUser" class="form-control" placeholder="Usuário destino">
+  </div>
+  <div class="col-md-2">
+    <button class="btn btn-danger w-100" onclick="sendInfraction()">
+      Enviar Infração
+    </button>
+  </div>
+</div>
+
     <!-- CARD: Total de Infrações -->
     <div class="col-md-4">
         <div class="card h-100 border-0 shadow-sm hover-lift">
@@ -176,27 +194,37 @@
 <script>
 let lastCheck = 0;
 
-setInterval(() => {
-    fetch(`/api/notifications/check?since=${lastCheck}`)
-        .then(res => res.json())
-        .then(data => {
-            if (!Array.isArray(data) || data.length === 0) return;
+function showToast(msg) {
+  const toast = document.createElement("div");
+  toast.innerHTML = msg;
+  toast.style.position = "fixed";
+  toast.style.bottom = "20px";
+  toast.style.right = "20px";
+  toast.style.background = "#0d6efd";
+  toast.style.color = "white";
+  toast.style.padding = "14px 18px";
+  toast.style.borderRadius = "8px";
+  toast.style.boxShadow = "0 4px 12px rgba(0,0,0,.2)";
+  toast.style.zIndex = "9999";
+  toast.style.fontSize = "14px";
 
-            data.forEach(n => {
-                alert(
-                    "🔔 SIMAI - Nova Notificação\n\n" +
-                    "Placa: " + (n.plate || "-") + "\n" +
-                    n.message
-                );
-            });
+  document.body.appendChild(toast);
 
-            // Atualiza UMA VEZ, com o maior timestamp
-            lastCheck = Math.max(...data.map(n => n.timestamp));
-        })
-        .catch(err => console.error("Erro nas notificações:", err));
-}, 4000);
+  setTimeout(() => toast.remove(), 5000);
+}
+
+async function checkNotifications() {
+  const res = await fetch(`/api/notifications/check?since=${lastCheck}`);
+  const data = await res.json();
+
+  data.forEach(n => {
+    showToast(n.message);
+    lastCheck = Math.max(lastCheck, n.timestamp);
+  });
+}
+
+setInterval(checkNotifications, 3000);
 </script>
-
 
 
 {% endblock %}

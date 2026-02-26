@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="fw-bold mb-3">Painel Administrativo</h2>
+<p class="text-muted">Gestão do sistema SIMAI</p>
+
+<div class="row g-4">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5>Total de Usuários</h5>
+        <h2>{{ total_users }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5>Total de Infrações</h5>
+        <h2>{{ total_infractions }}</h2>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<h5 class="mt-4">Enviar Infração</h5>
+
+<form id="sendInfractionForm">
+  <input class="form-control mb-2" placeholder="Usuário destino" id="to_user">
+  <input class="form-control mb-2" placeholder="Placa" id="plate">
+  <button class="btn btn-danger">Enviar</button>
+</form>
+
+<script>
+document.getElementById("sendInfractionForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  await fetch("/admin/send_infraction", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      to_user: to_user.value,
+      plate: plate.value
+    })
+  });
+  alert("Infração enviada");
+});
+</script>
+{% endblock %}

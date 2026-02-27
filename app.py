@@ -117,20 +117,33 @@ def login():
 @app.route("/forgot_password", methods=["GET", "POST"])
 def forgot_password():
     if request.method == "POST":
-        username = request.form.get("user").lower()
+        username = request.form.get("username")
         new_password = request.form.get("new_password")
 
-        users = load_users()
-        for u in users:
-            if u["username"] == username:
-                u["password"] = new_password
-                save_users(users)
-                return redirect("/login")
+        if not username or not new_password:
+            return render_template(
+                "forgot_password.html",
+                error="Preencha todos os campos."
+            )
 
-        return render_template(
-            "forgot_password.html",
-            error="Usuário não encontrado"
-        )
+        username = username.lower()
+        users = load_users()
+        updated = False
+
+        for user in users:
+            if user["username"] == username:
+                user["password"] = new_password
+                updated = True
+                break
+
+        if not updated:
+            return render_template(
+                "forgot_password.html",
+                error="Usuário não encontrado."
+            )
+
+        save_users(users)
+        return redirect(url_for("login"))
 
     return render_template("forgot_password.html")
 

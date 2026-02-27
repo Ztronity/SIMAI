@@ -114,6 +114,26 @@ def login():
 
     return render_template("login.html")
 
+@app.route("/forgot_password", methods=["GET", "POST"])
+def forgot_password():
+    if request.method == "POST":
+        username = request.form.get("user").lower()
+        new_password = request.form.get("new_password")
+
+        users = load_users()
+        for u in users:
+            if u["username"] == username:
+                u["password"] = new_password
+                save_users(users)
+                return redirect("/login")
+
+        return render_template(
+            "forgot_password.html",
+            error="Usuário não encontrado"
+        )
+
+    return render_template("forgot_password.html")
+
 @app.route("/logout")
 def logout():
     session.clear()
